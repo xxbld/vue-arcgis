@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="no-js">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="icon" href="<%= process.env.BASE_URL %>favicon.ico">
+  <title>vue-arcgis</title>
+
+  <% for(var i in htmlWebpackPlugin.options.links ) {%>
+  <% var link=htmlWebpackPlugin.options.links[i]%>
+  <link rel="stylesheet" type="text/css" href="<%= link %>" />
+  <% } %>
+</head>
+
+<body>
+  <noscript>
+    <strong>We're sorry but vue-arcgis doesn't work properly without JavaScript enabled. Please enable it to
+      continue.</strong>
+  </noscript>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+  <script>
+    window.dojoConfig = {
+      afterOnLoad: true,
+      async: true,
+      baseUrl: '<%= process.env.dojoPath %>'
+    }
+  </script>
+
+  <% for(var i in htmlWebpackPlugin.options.scripts) {%>
+  <% var script=htmlWebpackPlugin.options.scripts[i]%>
+  <script src="<%= script %>"></script>
+  <% } %>
+
+  <script>
+    var fileArray = [];
+    <% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
+    fileArray.push('<%= process.env.publicPath||"./" %><%= htmlWebpackPlugin.files.chunks[chunk].entry %>');
+    <% } %>
+    require(fileArray, function () {});
+  </script>
+</body>
+
+</html>
